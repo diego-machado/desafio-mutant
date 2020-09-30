@@ -3,11 +3,11 @@ import 'dotenv/config';
 
 import express, { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
+import ora from 'ora';
 import { errors } from 'celebrate';
 import 'express-async-errors';
-import routes from './routes';
-
 import AppError from '@shared/errors/AppError';
+import routes from './routes';
 
 const app = express();
 app.use(cors());
@@ -23,8 +23,6 @@ app.use((err: Error, req: Request, res: Response, _: NextFunction) => {
     });
   }
 
-  console.error(err);
-
   return res.status(500).json({
     status: 'error',
     message: 'Internal server error',
@@ -32,5 +30,5 @@ app.use((err: Error, req: Request, res: Response, _: NextFunction) => {
 });
 
 app.listen(3333, () => {
-  console.log('Server started on port 3333!');
+  ora('Server started on port 3333!').succeed();
 });
