@@ -1,11 +1,11 @@
 import { Router } from 'express';
 
-import UsersController from '@modules/users/infra/http/controllers/UsersController';
+import DownloadUsersControllerController from '@modules/users/infra/http/controllers/DownloadUsersControllerController';
 
 const usersRouter = Router();
 
-const usersController = new UsersController();
+const downloadUsersControllerController = new DownloadUsersControllerController();
 
-usersRouter.get('/', usersController.create);
+usersRouter.get('/', downloadUsersControllerController.index);
 
 export default usersRouter;
