@@ -10,6 +10,9 @@ export default class CreateAddressTable1601774398019
           {
             name: 'id',
             type: 'integer',
+            isPrimary: true,
+            isGenerated: true,
+            generationStrategy: 'increment',
           },
           {
             name: 'street',

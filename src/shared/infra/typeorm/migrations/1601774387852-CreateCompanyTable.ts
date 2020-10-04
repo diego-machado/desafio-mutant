@@ -10,6 +10,9 @@ export default class CreateCompanyTable1601774387852
           {
             name: 'id',
             type: 'integer',
+            isPrimary: true,
+            isGenerated: true,
+            generationStrategy: 'increment',
           },
           {
             name: 'name',

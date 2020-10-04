@@ -10,6 +10,9 @@ export default class CreateUsersTable1601773518825
           {
             name: 'id',
             type: 'integer',
+            isPrimary: true,
+            isGenerated: true,
+            generationStrategy: 'increment',
           },
           {
             name: 'name',
@@ -30,6 +33,10 @@ export default class CreateUsersTable1601773518825
           {
             name: 'website',
             type: 'varchar',
+          },
+          {
+            name: 'external_id',
+            type: 'integer',
           },
           {
             name: 'created_at',
