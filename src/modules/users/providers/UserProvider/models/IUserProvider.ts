@@ -3,6 +3,10 @@ interface Address {
   suite: string;
   city: string;
   zipcode: string;
+  geo: {
+    lat: string;
+    lng: string;
+  };
 }
 
 interface Company {
