@@ -7,11 +7,29 @@ import ora from 'ora';
 import { errors } from 'celebrate';
 import 'express-async-errors';
 import AppError from '@shared/errors/AppError';
+import winston from 'winston';
+import expressWinston from 'express-winston';
 import routes from './routes';
 
 import '@shared/infra/typeorm';
 
 const app = express();
+
+app.use(
+  expressWinston.logger({
+    transports: [new winston.transports.File({ filename: 'access.log' })],
+    format: winston.format.combine(
+      winston.format.colorize(),
+      winston.format.json(),
+    ),
+    meta: true,
+    msg:
+      'HTTP {{req.method}} {{req.url}} {{res.statusCode}} {{req.method}} {{res.responseTime}}ms {{req.url}}',
+    expressFormat: true,
+    colorize: false,
+  }),
+);
+
 app.use(cors());
 app.use(express.json());
 app.use(routes);
