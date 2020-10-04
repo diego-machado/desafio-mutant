@@ -7,7 +7,7 @@ import ora from 'ora';
 import { errors } from 'celebrate';
 import 'express-async-errors';
 import AppError from '@shared/errors/AppError';
-import winston from 'winston';
+import winston, { createLogger } from 'winston';
 import expressWinston from 'express-winston';
 import routes from './routes';
 
@@ -35,7 +35,35 @@ app.use(express.json());
 app.use(routes);
 app.use(errors());
 
+const options = {
+  file: {
+    level: 'info',
+    filename: `./errors.log`,
+    handleExceptions: true,
+    json: true,
+    colorize: false,
+    timestamp: true,
+  },
+  console: {
+    level: 'debug',
+    handleExceptions: true,
+    json: false,
+    colorize: true,
+    timestamp: true,
+  },
+};
+
+const logger = createLogger({
+  transports: [
+    new winston.transports.File(options.file),
+    new winston.transports.Console(options.console),
+  ],
+  exceptionHandlers: [new winston.transports.File(options.file)],
+  exitOnError: false,
+});
+
 app.use((err: Error, req: Request, res: Response, _: NextFunction) => {
+  logger.error('uncaughtException', { message: err.message, stack: err.stack });
   if (err instanceof AppError) {
     return res.status(err.statusCode).json({
       status: 'error',
