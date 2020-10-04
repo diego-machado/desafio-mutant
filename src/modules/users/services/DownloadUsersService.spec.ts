@@ -1,34 +1,42 @@
 import FakeUserProvider from '../providers/UserProvider/fakes/FakeUserProvider';
-import DownloadUsersService from './DownloadUsersService';
+import SaveUsersService from './SaveUsersService';
+
+import FakeAddressesRepository from '../infra/typeorm/repositories/fakes/FakeAddressesRepository';
+import FakeCompaniesRepository from '../infra/typeorm/repositories/fakes/FakeCompaniesRepository';
+import FakeUsersRepository from '../infra/typeorm/repositories/fakes/FakeUsersRepository';
+
+let fakeUserProvider: FakeUserProvider;
+let fakeAddressesRepository: FakeAddressesRepository;
+let fakeCompaniesRepository: FakeCompaniesRepository;
+let fakeUsersRepository: FakeUsersRepository;
+let saveUsersService: SaveUsersService;
 
 describe('DownloadUsers', () => {
-  it('should be able to download users', async () => {
-    const fakeUserProvider = new FakeUserProvider();
-    const downloadUsersService = new DownloadUsersService(fakeUserProvider);
+  beforeEach(() => {
+    fakeUserProvider = new FakeUserProvider();
+    fakeAddressesRepository = new FakeAddressesRepository();
+    fakeCompaniesRepository = new FakeCompaniesRepository();
+    fakeUsersRepository = new FakeUsersRepository();
+    saveUsersService = new SaveUsersService(
+      fakeUserProvider,
+      fakeAddressesRepository,
+      fakeCompaniesRepository,
+      fakeUsersRepository,
+    );
+  });
 
-    const users = await downloadUsersService.execute();
+  it('should be able to download users', async () => {
+    const users = await saveUsersService.execute();
 
     expect(users).toBeTruthy();
-    expect(users).toEqual([
-      {
-        id: 1,
-        name: 'Jhon Doe',
-        username: 'jhon.doe',
-        email: 'jhon.doe@server.com',
-        phone: '+55 (48) 999999999',
-        website: 'http://www.jhondoe.me',
-        address: {
-          city: 'Pallet',
-          street: 'Angel Grove',
-          suite: '154',
-          zipcode: '00000-000',
-        },
-        company: {
-          bs: '',
-          catchPhrase: 'Gotta catch them all',
-          name: 'Pokemon',
-        },
-      },
-    ]);
+    expect(users[0].name).toEqual('Jhon Doe');
+  });
+
+  it('should be able to relate a saved company', async () => {
+    const users = await saveUsersService.execute();
+    await saveUsersService.execute();
+
+    expect(users).toBeTruthy();
+    expect(users[0].name).toEqual('Jhon Doe');
   });
 });
