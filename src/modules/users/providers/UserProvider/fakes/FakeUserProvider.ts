@@ -12,7 +12,30 @@ export default class FakeUserProvider implements IUserProvider {
       address: {
         city: 'Pallet',
         street: 'Angel Grove',
-        suite: '154',
+        suite: 'Suite 154',
+        zipcode: '00000-000',
+        geo: {
+          lat: '123',
+          lng: '123',
+        },
+      },
+      company: {
+        bs: '',
+        catchPhrase: 'Gotta catch them all',
+        name: 'Pokemon',
+      },
+    },
+    {
+      id: 1,
+      name: 'Jhane Doe',
+      username: 'jhane.doe',
+      email: 'jhane.doe@server.com',
+      phone: '+55 (48) 999999999',
+      website: 'http://www.jhanedoe.me',
+      address: {
+        city: 'Pallet',
+        street: 'Angel Grove',
+        suite: 'Apt 154',
         zipcode: '00000-000',
         geo: {
           lat: '123',

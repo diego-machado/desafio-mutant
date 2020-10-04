@@ -30,28 +30,30 @@ class SaveUsersService {
     const addedUsers: User[] = [];
 
     const promises = users.map(async user => {
-      let company = await this.companiesRepository.findCompanyByName(
-        user.company.name,
-      );
+      if (user.address.suite.toLocaleLowerCase().includes('suite')) {
+        let company = await this.companiesRepository.findCompanyByName(
+          user.company.name,
+        );
 
-      if (!company) {
-        company = await this.companiesRepository.create(user.company);
+        if (!company) {
+          company = await this.companiesRepository.create(user.company);
+        }
+
+        const address = await this.addressesRepository.create({
+          ...user.address,
+          lat: user.address.geo.lat,
+          lng: user.address.geo.lng,
+        });
+
+        const dbUser = await this.usersRepository.create({
+          ...user,
+          company_id: company.id,
+          address_id: address.id,
+          external_id: user.id,
+        });
+
+        addedUsers.push(dbUser);
       }
-
-      const address = await this.addressesRepository.create({
-        ...user.address,
-        lat: user.address.geo.lat,
-        lng: user.address.geo.lng,
-      });
-
-      const dbUser = await this.usersRepository.create({
-        ...user,
-        company_id: company.id,
-        address_id: address.id,
-        external_id: user.id,
-      });
-
-      addedUsers.push(dbUser);
     });
 
     await Promise.all(promises);
