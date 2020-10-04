@@ -14,6 +14,10 @@ export default class FakeUserProvider implements IUserProvider {
         street: 'Angel Grove',
         suite: '154',
         zipcode: '00000-000',
+        geo: {
+          lat: '123',
+          lng: '123',
+        },
       },
       company: {
         bs: '',

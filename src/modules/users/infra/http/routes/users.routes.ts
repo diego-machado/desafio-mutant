@@ -1,11 +1,14 @@
 import { Router } from 'express';
 
-import DownloadUsersControllerController from '@modules/users/infra/http/controllers/DownloadUsersController';
+import DownloadUsersController from '@modules/users/infra/http/controllers/DownloadUsersController';
+import SaveUsersController from '@modules/users/infra/http/controllers/SaveUsersController';
 
 const usersRouter = Router();
 
-const downloadUsersControllerController = new DownloadUsersControllerController();
+const downloadUsersController = new DownloadUsersController();
+const saveUsersController = new SaveUsersController();
 
-usersRouter.get('/', downloadUsersControllerController.index);
+usersRouter.get('/download', downloadUsersController.index);
+usersRouter.get('/save', saveUsersController.index);
 
 export default usersRouter;
