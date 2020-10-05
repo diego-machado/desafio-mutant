@@ -21,3 +21,4 @@ docker exec -it mutant_api ash
 ```bash
 npm run typeorm migration:run
 ```
+> Every endpoint access will generate a register at access.log file
