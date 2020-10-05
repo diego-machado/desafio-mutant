@@ -1,5 +1,3 @@
-# desafio mutant
-
 1 - Create a network to run the container
 ```bash
 docker network create mutant_net

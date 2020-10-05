@@ -13,6 +13,7 @@ export default class SaveUsersController {
       new CompaniesRepository(),
       new UsersRepository(),
     );
+
     const users = await saveUsersService.execute();
 
     return response.json(users);
